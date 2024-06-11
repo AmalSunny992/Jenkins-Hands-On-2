@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/weather")
 public class WeatherServlet extends HttpServlet {
 
-    private static final String API_KEY = "your_api_key";
+    private static final String API_KEY = "8de9f8ec1555cb32a2a5ded5b73ad998";
     private static final String API_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s";
 
     @Override
