@@ -34,11 +34,22 @@ public class WeatherServlet extends HttpServlet {
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(jsonResponse);
+
+        // Extract weather information
         JsonNode weatherNode = rootNode.path("weather").get(0).path("description");
         JsonNode tempNode = rootNode.path("main").path("temp");
+        JsonNode humidityNode = rootNode.path("main").path("humidity");
+        JsonNode pressureNode = rootNode.path("main").path("pressure");
+        JsonNode windNode = rootNode.path("wind").path("speed");
+        JsonNode visibilityNode = rootNode.path("visibility");
 
+        // Set attributes for JSP
         req.setAttribute("weather", weatherNode.asText());
         req.setAttribute("temperature", tempNode.asDouble() - 273.15); // Convert from Kelvin to Celsius
+        req.setAttribute("humidity", humidityNode.asInt());
+        req.setAttribute("pressure", pressureNode.asInt());
+        req.setAttribute("wind", windNode.asDouble());
+        req.setAttribute("visibility", visibilityNode.asInt());
         req.setAttribute("city", city);
 
         req.getRequestDispatcher("/result.jsp").forward(req, resp);
