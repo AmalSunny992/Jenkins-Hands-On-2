@@ -34,7 +34,7 @@
                 <label for="city">Select City:</label>
                 <select class="form-control" id="city" name="city" required>
                     <option value="" disabled selected>Select a city</option>
-                    <option value="New York">New York</option>
+                    <option value="Florida">New York</option>
                     <option value="London">London</option>
                     <option value="Tokyo">Tokyo</option>
                     <option value="Paris">Paris</option>
