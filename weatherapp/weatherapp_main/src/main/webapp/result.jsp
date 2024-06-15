@@ -4,9 +4,12 @@
     <title>Weather Report</title>
 </head>
 <body>
-    <h1>Weather Report for <%= request.getAttribute("city") %></h1>
-    <p>Weather: <%= request.getAttribute("weather") %></p>
-    <p>Temperature: <%= String.format("%.2f", request.getAttribute("temperature")) %> °C</p>
-    <a href="index.jsp">Back</a>
+    <h1>Weather Information for ${city}</h1>
+    <p><strong>Weather:</strong> ${weather}</p>
+    <p><strong>Temperature:</strong> ${temperature} °C</p>
+    <p><strong>Humidity:</strong> ${humidity} %</p>
+    <p><strong>Pressure:</strong> ${pressure} hPa</p>
+    <p><strong>Wind Speed:</strong> ${wind} m/s</p>
+    <p><strong>Visibility:</strong> ${visibility} meters</p>
 </body>
 </html>
