@@ -32,7 +32,8 @@
         <form action="weather" method="post">
             <div class="form-group">
                 <label for="city">Select City:</label>
-                <select class="form-control" id="city" name="city">
+                <select class="form-control" id="city" name="city" required>
+                    <option value="" disabled selected>Select a city</option>
                     <option value="New York">New York</option>
                     <option value="London">London</option>
                     <option value="Tokyo">Tokyo</option>
