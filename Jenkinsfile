@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent slave_CI
 
     stages {
         stage('CheckOut Code') {
