@@ -35,6 +35,7 @@ pipeline {
             steps {
             dir('/home/ubuntu//workspace/weatherapp/weatherapp/weatherapp_main/target'){
                 nexusArtifactUploader artifacts: [[artifactId: 'weatherappartifactory', classifier: '', file: 'weather-app.war', type: 'war']], credentialsId: 'Nexus_admin_cred', groupId: 'com.example', nexusUrl: 'ec2-107-22-144-55.compute-1.amazonaws.com:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'WeatherAppArtefactory', version: '1.0'
+                }
             }
         }
         stage('Tomcat Prerequisite Installation') {
