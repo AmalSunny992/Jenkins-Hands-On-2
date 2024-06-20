@@ -12,34 +12,34 @@ pipeline {
         stage('Maven Build Tool') {
             steps {
         sh 'wget https://dlcdn.apache.org/maven/maven-3/3.9.7/binaries/apache-maven-3.9.7-bin.tar.gz'
-        sh 'tar -xzvf /home/ubuntu//workspace/weatherapp/apache-maven-3.9.7-bin.tar.gz'
+        sh 'tar -xzvf /home/ec2-user//workspace/weatherapp/apache-maven-3.9.7-bin.tar.gz'
             }
         }
         
         stage('Compile Sample App') {
             steps {
-            dir('/home/ubuntu//workspace/weatherapp/weatherapp/weatherapp_main'){
-            sh '/home/ubuntu//workspace/weatherapp/apache-maven-3.9.7/bin/mvn compile'}
+            dir('/home/ec2-user//workspace/weatherapp/weatherapp/weatherapp_main'){
+            sh '/home/ec2-user//workspace/weatherapp/apache-maven-3.9.7/bin/mvn compile'}
             }
         }
        
         stage('Test Sample App') {
             steps {
-            dir('/home/ubuntu//workspace/weatherapp/weatherapp/weatherapp_main'){
-            sh '/home/ubuntu//workspace/weatherapp/apache-maven-3.9.7/bin/mvn test'}
+            dir('/home/ec2-user//workspace/weatherapp/weatherapp/weatherapp_main'){
+            sh '/home/ec2-user//workspace/weatherapp/apache-maven-3.9.7/bin/mvn test'}
             }
         }
        
         stage('Package Sample App') {
             steps {
-            dir('/home/ubuntu//workspace/weatherapp/weatherapp/weatherapp_main'){
-            sh '/home/ubuntu//workspace/weatherapp/apache-maven-3.9.7/bin/mvn package'}
+            dir('/home/ec2-user//workspace/weatherapp/weatherapp/weatherapp_main'){
+            sh '/home/ec2-user//workspace/weatherapp/apache-maven-3.9.7/bin/mvn package'}
             }
         }
       
         stage('Upload Artifacts To Nexus') {
             steps {
-            dir('/home/ubuntu//workspace/weatherapp/weatherapp/weatherapp_main/target'){
+            dir('/home/ec2-user//workspace/weatherapp/weatherapp/weatherapp_main/target'){
                 nexusArtifactUploader artifacts: [[artifactId: 'weatherappartifactory', classifier: '', file: 'weather-app.war', type: 'war']], credentialsId: 'Nexus_admin_cred', groupId: 'com.example', nexusUrl: 'ec2-107-22-144-55.compute-1.amazonaws.com:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'WeatherAppArtefactory', version: '1.0.0-SNAPSHOT'
                 }
             }
