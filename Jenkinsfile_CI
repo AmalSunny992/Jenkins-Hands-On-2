@@ -55,7 +55,7 @@ pipeline {
                         echo "Nexus URL: ${env.NEXUS_URL}"
                     }
                 dir('/home/ec2-user/workspace/weatherapp_ci/weatherapp/weatherapp_main/target'){
-                nexusArtifactUploader artifacts: [[artifactId: 'weatherappartifactory', classifier: '', file: 'target/weather-app.war', type: 'war']], credentialsId: 'Nexus_admin_cred', groupId: 'com.example', nexusUrl: '100.25.181.235:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'WeatherAppArtefactory', version: '1.0.0-SNAPSHOT'
+                nexusArtifactUploader artifacts: [[artifactId: 'weatherappartifactory', classifier: '', file: 'target/weather-app.war', type: 'war']], credentialsId: 'Nexus_admin_cred', groupId: 'com.example', nexusUrl: "env.NEXUS_URL", nexusVersion: 'nexus3', protocol: 'http', repository: 'WeatherAppArtefactory', version: '1.0.0-SNAPSHOT'
                 }
             }
             
@@ -67,11 +67,5 @@ pipeline {
         always {
             cleanWs()
             }
-        success {
-            script {
-                echo 'Pipeline completed successfully, triggering another pipeline...'
-                build job: 'weatherapp_cd', wait: false
-                    }
-                }
-            }
+                    }                  
 }
