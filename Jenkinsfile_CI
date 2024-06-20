@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+   environment {
+        AWS_REGION = 'us-east-1'
+        NEXUS_INSTANCE_ID = 'i-0b6e0f76137a1f206' 
+        AWS_CREDENTIALS_ID = 'AWS_admin' 
+    }
+
     stages {
         
         stage('CheckOut Code') {
