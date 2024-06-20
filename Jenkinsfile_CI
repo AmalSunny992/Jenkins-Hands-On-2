@@ -51,7 +51,7 @@ pipeline {
                             script: "aws ec2 describe-instances --instance-ids ${NEXUS_INSTANCE_ID} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text",
                             returnStdout: true
                         ).trim()
-                        env.NEXUS_URL = "http://${nexusPublicIp}:8081"
+                        env.NEXUS_URL = "${nexusPublicIp}:8081"
                         echo "Nexus URL: ${env.NEXUS_URL}"
                     }
                 dir('/home/ec2-user/workspace/weatherapp_ci/weatherapp/weatherapp_main/target'){
