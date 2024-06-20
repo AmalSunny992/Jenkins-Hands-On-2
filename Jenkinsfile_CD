@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION = 'us-east-1'
+        AWS_ACCOUNT_ID = '590183820550'
+        EB_APP_NAME = 'WeatherApplication' 
+        EB_ENV_NAME = 'WeatherApplication-env'
+        NEXUS_INSTANCE_ID = 'i-0b6e0f76137a1f206' 
+        REPOSITORY = 'WeatherAppArtefactory' 
+        GROUP_ID = 'com.example' 
+        ARTIFACT_ID = 'weatherappartifactory' 
+        ARTIFACT_NAME = 'myapp.war'
+        AWS_CREDENTIALS_ID = 'AWS_admin' 
+        NEXUS_CREDENTIALS_ID = 'Nexus_admin_cred'
+    }
+
+    stages {
+        stage('Get Nexus EC2 Public IP') {
+            steps {
+                withAWS(credentials: "${AWS_CREDENTIALS_ID}", region: "${AWS_REGION}") {
+                    script {
+                        def nexusPublicIp = sh(
+                            script: "aws ec2 describe-instances --instance-ids ${NEXUS_INSTANCE_ID} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text",
+                            returnStdout: true
+                        ).trim()
+                        
+                        env.NEXUS_URL = "http://${nexusPublicIp}:8081"
+                        echo "Nexus URL: ${env.NEXUS_URL}"
+                    }
+                }
+            }
+        }
+
+        stage('Get Latest Artifact Version and Download') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS_ID, usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                        def response = sh(
+                            script: """
+                                curl -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -s -X GET "${NEXUS_URL}/service/rest/v1/search/assets?repository=${REPOSITORY}&group=${GROUP_ID}&name=${ARTIFACT_ID}" | \
+                                jq -r '.items | map(select(.path | endswith(".war"))) | sort_by(.lastModified) | last | .downloadUrl'
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        env.ARTIFACT_URL = response
+                        echo "Artifact URL: ${env.ARTIFACT_URL}"
+                        sh "curl -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -O ${env.ARTIFACT_URL}"
+                        ARTIFACT_NAME = env.ARTIFACT_URL.split('/').last()
+                    }
+                }
+            }
+        }
+
+        stage('Upload to Elastic Beanstalk') {
+            steps {
+                withAWS(credentials: "${AWS_CREDENTIALS_ID}", region: "${AWS_REGION}") {
+                    script {
+                        sh """
+                            aws s3 cp ${env.WORKSPACE}/${ARTIFACT_NAME} s3://elasticbeanstalk-${AWS_REGION}-${AWS_ACCOUNT_ID}/${EB_APP_NAME}/${ARTIFACT_NAME}
+                        """
+                        def versionLabel = new Date().format("yyyyMMddHHmmss")
+                        sh """
+                            aws elasticbeanstalk create-application-version --application-name ${EB_APP_NAME} --version-label ${versionLabel} --source-bundle S3Bucket=elasticbeanstalk-${AWS_REGION}-${AWS_ACCOUNT_ID},S3Key=${EB_APP_NAME}/${ARTIFACT_NAME}
+                            aws elasticbeanstalk update-environment --environment-name ${EB_ENV_NAME} --version-label ${versionLabel}
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
