@@ -50,8 +50,12 @@ pipeline {
     post {
         always {
             cleanWs()
-        }
-        build job: 'weatherapp_cd', wait: false
-
-    }
+            }
+        success {
+            script {
+                echo 'Pipeline completed successfully, triggering another pipeline...'
+                build job: 'weatherapp_cd', wait: false
+                    }
+                }
+            }
 }
