@@ -68,6 +68,8 @@ Screenshots:
 
   Screenshots:
   ![image](https://github.com/AmalSunny992/weather-app/assets/169422802/a4d9c9cc-e58a-40c0-b00e-1438386ab7ee)
+  
+  ![image](https://github.com/AmalSunny992/weather-app/assets/169422802/571a61a0-4370-4c76-a55f-b127cd92399d)
 
   ![image](https://github.com/AmalSunny992/weather-app/assets/169422802/57a6a2c8-e3f1-419b-a591-9e3d1280d95a)
 
