@@ -1,3 +1,11 @@
+![Jenkins Badge](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=fff&style=for-the-badge)
+![Apache Maven Badge](https://img.shields.io/badge/Apache%20Maven-C71A36?logo=apachemaven&logoColor=fff&style=for-the-badge)
+![Amazon AWS Badge](https://img.shields.io/badge/Amazon%20AWS-232F3E?logo=amazonaws&logoColor=fff&style=for-the-badge)
+![Sonatype Badge](https://img.shields.io/badge/Sonatype-1B1C30?logo=sonatype&logoColor=fff&style=for-the-badge)
+![Amazon EC2 Badge](https://img.shields.io/badge/Amazon%20EC2-F90?logo=amazonec2&logoColor=fff&style=for-the-badge)
+![Amazon S3 Badge](https://img.shields.io/badge/Amazon%20S3-569A31?logo=amazons3&logoColor=fff&style=for-the-badge)
+![Apache Tomcat Badge](https://img.shields.io/badge/Apache%20Tomcat-F8DC75?logo=apachetomcat&logoColor=000&style=for-the-badge)
+
 # Hands On : Create a CI/CD Pipeline for a Weather APP
 
 The project involves setting up Jenkins on AWS, creating a CI pipeline to build and deploy the weatherapp application, deploying Nexus as an artifact repository on an EC2 instance, and uploading/downloading .war files to/from Nexus and Elastic Beanstalk.
@@ -16,7 +24,7 @@ The project involves setting up Jenkins on AWS, creating a CI pipeline to build 
 
 
 ### Configure a Jenkins pipeline (Jenkinsfile) to:
-- Build the weatherapp Java application.
+- Build the weatherapp Java application using Maven.
 - Execute tests and generate reports.
 - Package the application into a .war file.
 - Deploy Nexus Server on EC2 Instance
