@@ -20,7 +20,7 @@ The project involves setting up Jenkins on AWS, creating a CI pipeline to build 
 
   Screenshots :
 
-  ![image](https://github.com/AmalSunny992/weather-app/assets/169422802/932e9c42-6f6e-4eef-a68a-2fda669d0f43)
+  ![image](https://github.com/user-attachments/assets/169422802/932e9c42-6f6e-4eef-a68a-2fda669d0f43)
 
 
 ### Configure a Jenkins pipeline (Jenkinsfile) to:
